@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import dbtestRoutes from './routes/dbtestRoute'
 import registrationRoutes from './routes/registrationRoute'
 import authRoutes from './routes/authRotues'
+import nutritionRotue from './routes/nutritionRoute'
 import { setupSwagger } from "./swagger";
 
 const app = express()
@@ -12,6 +13,8 @@ app.use(express.json())
 app.use('/api',dbtestRoutes)
 app.use('/api',registrationRoutes)
 app.use('/api/auth/',authRoutes)
+app.use("/api/nutrition", nutritionRotue);
+
 setupSwagger(app);
 
 app.listen(3002, () => {

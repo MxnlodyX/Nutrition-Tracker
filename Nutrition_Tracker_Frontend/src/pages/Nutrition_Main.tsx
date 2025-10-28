@@ -1,5 +1,5 @@
 import NutritionHeader from "../components/header";
-import NutritionCard from "../components/nutritionCard";
+import NutritionCard from "../components/NutritionCard";
 import MealButton from "../components/addMealButton"
 import MealLog from "../components/MealLog"
 
