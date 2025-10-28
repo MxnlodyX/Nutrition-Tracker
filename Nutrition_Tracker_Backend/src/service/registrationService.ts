@@ -1,6 +1,9 @@
 import pool from "../utils/db";
 import UserInformation from "../model/registrationModel"
 import bcrypt from "bcrypt";
+export const getClient = async () => {
+    return await pool.connect(); // ✅ คืน client เพื่อใช้ transaction
+};
 
 export const registrationAccount = async (user: UserInformation) => {
     const client = await pool.connect()
@@ -8,8 +11,8 @@ export const registrationAccount = async (user: UserInformation) => {
         if (!user) {
             throw { status: 400, message: "No data received" };
         }
-        const checkEmail = await client.query(`SELECT email FROM userinformation WHERE email = $1`,[user.email])
-        if(checkEmail.rows.length > 0){
+        const checkEmail = await client.query(`SELECT email FROM userinformation WHERE email = $1`, [user.email])
+        if (checkEmail.rows.length > 0) {
             throw { status: 400, message: "Email already registered" };
         }
         const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -35,9 +38,9 @@ export const registrationAccount = async (user: UserInformation) => {
             delete (newUser as any).password;
             return newUser;
         }
-    } catch(error: any){
+    } catch (error: any) {
         throw error
-    } 
+    }
     finally {
         client.release()
     }
