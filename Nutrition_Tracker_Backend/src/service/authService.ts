@@ -14,13 +14,13 @@ export const login = async (email: string, password: string) => {
 
         if (!match) throw { status: 401, message: "Invalid password" };
 
-        const { accessToken, refreshToken } = generateToken(user.user_id);
+        const { accessToken, refreshToken } = generateToken(user.id);
 
         await client.query(
             "INSERT INTO user_tokens (user_id, token) VALUES ($1, $2)",
-            [user.user_id, refreshToken]
+            [user.id, refreshToken]
         )
-        return { user: { id: user.user_id, email: user.email }, accessToken, refreshToken }
+        return { user: { id: user.id, email: user.email }, accessToken, refreshToken }
     } finally {
         client.release()
     }
@@ -29,7 +29,7 @@ export const login = async (email: string, password: string) => {
 export const refresh = async (refreshToken: string) => {
     const client = await pool.connect()
     try {
-        const found = await client.query("SELECt * FROm user_tokens WHERE token=$1", [refreshToken]);
+        const found = await client.query("SELECt * FROM user_tokens WHERE token=$1", [refreshToken]);
         if (!found.rows[0]) throw { status: 403, message: "Invalid refresh token" };
         const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET!) as { id: number }
         const { accessToken, refreshToken: newRefresh } = generateToken(decoded.id);
@@ -47,7 +47,7 @@ export const refresh = async (refreshToken: string) => {
 export const logout = async (refreshToken: string) => {
     const client = await pool.connect()
     try {
-        await client.query("DELETE FROM user_tokens WHERe token=$1", [refreshToken])
+        await client.query("DELETE FROM user_tokens WHERE token=$1", [refreshToken])
     } finally {
         client.release()
     }
@@ -56,7 +56,7 @@ export const profile = async (userId: number) => {
     const client = await pool.connect()
     try {
         const result = await client.query(
-            "SELECT firstname, lastname, gender, birthday, email, weight, height, activity FROM userinformation WHERE user_id = $1",
+            "SELECT firstname, lastname, gender, birthday, email, weight, height, activity FROM userinformation WHERE id = $1",
             [userId]
         );
         if (result.rows.length === 0) return null;
