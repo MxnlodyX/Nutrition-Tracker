@@ -19,7 +19,6 @@ export default function RegistrationPage() {
                 setCurrentStep(4);
             } catch (error) {
                 console.error("Registration failed:", error);
-                // Optionally, set an error state to display a message to the user
             }
             return;
         }
@@ -277,8 +276,8 @@ export default function RegistrationPage() {
                                         </option>
                                         <option value="none">ไม่ออกกำลังกายเลย</option>
                                         <option value="light">ออกกำลังกาย 1-2 ครั้ง/สัปดาห์</option>
-                                        <option value="medium">ออกกำลังกาย 3-5 ครั้ง/สัปดาห์</option>
-                                        <option value="heavy">ออกกำลังกายหนักทุกวัน</option>
+                                        <option value="moderate">ออกกำลังกาย 3-5 ครั้ง/สัปดาห์</option>
+                                        <option value="daily">ออกกำลังกายหนักทุกวัน</option>
                                     </select>
                                     {errors.activity && (
                                         <p className="text-red-500 text-sm mt-1">{errors.activity}</p>
