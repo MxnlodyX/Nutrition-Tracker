@@ -83,7 +83,7 @@ export default function MealLog({ meals, onDeleted }: MealLogProps) {
                             <button
                                 onClick={() => handleDelete(meal.id)} // ✅ เพิ่ม onClick
 
-                                className="px-3 py-1.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+                                className="cursor-pointer px-3 py-1.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
                             >
                                 ลบ
                             </button>
