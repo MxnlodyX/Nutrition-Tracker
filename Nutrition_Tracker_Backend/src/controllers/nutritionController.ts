@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as NutritionService from "../service/nutritionService";
-
+import { NutritionUserData } from "../model/NutritionModel";
 export const calculateUserNutrition = async (req: Request, res: Response) => {
     try {
         const userId = Number(req.params.userId);
@@ -35,3 +35,35 @@ export const getLatestUserNutrition = async (req: Request, res: Response) => {
         return res.status(500).json({ message: error.message || "Internal server error" });
     }
 }
+export const updateLatestUserNutrition = async (req: Request, res: Response) => {
+    try {
+        const data: NutritionUserData = req.body;
+
+        if (
+            !data ||
+            !data.user_id ||
+            data.tdee === undefined ||
+            data.protein === undefined ||
+            data.carb === undefined ||
+            data.fat === undefined
+        ) {
+            return res.status(400).json({ message: "❌ Invalid or missing nutrition data" });
+        }
+
+        const nutrition = await NutritionService.editNutritionGoal(data);
+
+        if (!nutrition) {
+            return res.status(404).json({ message: "⚠️ No nutrition data found for this user" });
+        }
+
+        return res.status(200).json({
+            message: "✅ Nutrition goal updated successfully",
+            data: nutrition,
+        });
+    } catch (error: any) {
+        console.error("❌ updateLatestUserNutrition error:", error);
+        return res.status(500).json({
+            message: error.message || "Internal server error",
+        });
+    }
+};

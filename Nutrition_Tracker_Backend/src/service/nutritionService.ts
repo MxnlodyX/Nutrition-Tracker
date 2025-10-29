@@ -1,4 +1,4 @@
-import { NutritionInput } from "../model/NutritionModel";
+import { NutritionInput, NutritionUserData } from "../model/NutritionModel";
 import pool from "../utils/db";
 
 const activityFactor: Record<NutritionInput["activity"], number> = {
@@ -48,3 +48,12 @@ export const getLatestNutrition = async (userId: number) => {
     );
     return result.rows[0];
 };
+
+export const editNutritionGoal = async (data: NutritionUserData) => {
+    const result = await pool.query(
+        ` UPDATE nutrition_calculation SET 
+            tdee = $1, protein = $2, carb = $3, fat = $4, created_at = NOW() WHERE user_id = $5 RETURNING *; `, 
+            [data.tdee, data.protein, data.carb, data.fat, data.user_id])
+    return result.rows[0]
+
+}
