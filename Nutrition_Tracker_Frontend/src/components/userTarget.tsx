@@ -122,7 +122,7 @@ export default function UserTarget({ nutrition, fetchData }: any) {
         <div className="max-w-6xl mx-auto mt-8">
             <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/60 p-8">
                 <div className="flex justify-between items-center mb-8">
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    <h3 className="text-2xl font-bold bg-gradient-to-r font-black">
                         เป้าหมายรายวัน
                     </h3>
                     <button
