@@ -46,7 +46,7 @@ export default function NewMealForm({ onClose , onAdded }: NewMealFormProps) {
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="bg-white rounded-3xl shadow-2xl p-8 w-[90%] max-w-2xl animate-fadeIn relative">
-                <h2 className="text-2xl font-bold text-indigo-600 mb-6">🍽️ เพิ่มมื้ออาหาร</h2>
+                <h2 className="text-2xl font-bold text-black mb-6">🍽️ เพิ่มมื้ออาหาร</h2>
 
                 <MealSelector onSelect={(meal) => setMealType(meal as any)} />
 
@@ -135,7 +135,7 @@ export default function NewMealForm({ onClose , onAdded }: NewMealFormProps) {
                     </button>
                     <button
                         onClick={handleSubmit}
-                        className="px-6 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white rounded-xl shadow-md hover:shadow-lg transition font-medium"
+                        className="px-6 py-2 bg-gray-700 text-white rounded-xl shadow-md hover:shadow-lg transition font-medium"
                     >
                         บันทึก
                     </button>

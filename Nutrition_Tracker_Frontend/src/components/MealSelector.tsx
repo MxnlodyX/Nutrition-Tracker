@@ -15,7 +15,7 @@ export default function MealSelector({ onSelect }: { onSelect: (meal: string) =>
                     }}
                     className={`flex-1 px-5 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 shadow-sm hover:shadow-md 
           ${selectedMeal === meal
-                            ? "bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-lg scale-[1.03]"
+                            ? "bg-gray-700 text-white shadow-lg scale-[1.03]"
                             : "bg-white/70 backdrop-blur-sm border-2 border-slate-200 text-slate-600 hover:border-indigo-300"
                         }`}
                 >

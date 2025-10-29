@@ -4,6 +4,7 @@ import NutritionCard from "../components/NutritionCard";
 import MealButton from "../components/addMealButton";
 import MealLog from "../components/MealLog";
 import UserTarget from "../components/userTarget";
+import History from "../components/history";
 import { getProfile } from "../service/authService";
 import { getNutritionInfo } from "../service/nutritionService";
 import { getMealToday } from "../service/mealService";
@@ -13,7 +14,7 @@ export default function NutritionMainPage() {
     const [profile, setProfile] = useState<any>(null);
     const [nutrition, setNutrition] = useState<any>(null);
     const [mealToday, setMealToday] = useState<any>([]);
-    const [activeTab, setActiveTab] = useState<"today" | "target">("today");
+    const [activeTab, setActiveTab] = useState<"today" | "target" | "history">("today");
 
     const fetchData = async () => {
         try {
@@ -34,6 +35,9 @@ export default function NutritionMainPage() {
             console.error("❌ Failed to fetch profile or nutrition:", error);
         }
     };
+
+
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -67,10 +71,15 @@ export default function NutritionMainPage() {
             )}
             {activeTab === "target" && (
                 <div>
-                    <UserTarget nutrition={nutrition}/>
+                    <UserTarget nutrition={nutrition} fetchData={fetchData} />
                 </div>
             )}
-
+            
+            {activeTab === "history" && (
+                <div>
+                    <History />
+                </div>
+            )}
         </div>
     );
 }
