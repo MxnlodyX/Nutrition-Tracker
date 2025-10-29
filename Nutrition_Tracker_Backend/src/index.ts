@@ -4,6 +4,7 @@ import dbtestRoutes from './routes/dbtestRoute'
 import registrationRoutes from './routes/registrationRoute'
 import authRoutes from './routes/authRotues'
 import nutritionRotue from './routes/nutritionRoute'
+import mealRoute from './routes/mealRoute' // Import meal route
 import { setupSwagger } from "./swagger";
 import cors from "cors";
 
@@ -17,8 +18,9 @@ app.use(cors({
 }));
 app.use('/api', dbtestRoutes)
 app.use('/api', registrationRoutes)
-app.use('/api/auth/', authRoutes)
+app.use('/api/auth', authRoutes)
 app.use("/api/nutrition", nutritionRotue);
+app.use("/api/meals", mealRoute); // Use meal route
 
 setupSwagger(app);
 
