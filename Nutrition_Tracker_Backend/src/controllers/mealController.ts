@@ -31,6 +31,27 @@ export const getTodayMeals = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const getAllMeals = async (req: Request, res: Response) => {
+    try {
+        const userId = Number(req.params.userId);
+        const date = req.query.date as string | undefined;
+        if (!userId) return res.status(400).json({ message: "User ID is required" });
+        let meals;
+        if (date) {
+            meals = await MealService.getMealsByDate(userId, date);
+        } else {
+            meals = await MealService.getAllMeals(userId);
+        }
+        return res.status(200).json(meals);
+    } catch (error: any) {
+        console.error("❌ Error fetching meals:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+
 export const deleteMeal = async (req: Request, res: Response) => {
     try {
         const mealId = Number(req.params.mealId);

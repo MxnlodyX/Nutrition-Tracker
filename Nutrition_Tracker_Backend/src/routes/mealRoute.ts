@@ -7,5 +7,5 @@ const router = express.Router();
 router.post("/", authMiddleware, MealController.addMeal);
 router.get("/today/:userId", authMiddleware, MealController.getTodayMeals);
 router.delete("/delete/:mealId", authMiddleware, MealController.deleteMeal);
-
+router.get("/getmeal/:userId", MealController.getAllMeals);
 export default router;
