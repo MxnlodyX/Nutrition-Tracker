@@ -55,7 +55,7 @@ export const logout = async (req: Request, res: Response) => {
                 userId,
                 userInfo: user,
             });
-        } catch (error) {
-            res.status(500).json({ message: "Error fetching user profile" });
+        } catch (error: any) {
+            res.status(500).json({ message: error.message || "Error fetching user profile" });
         }
     };
