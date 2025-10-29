@@ -34,6 +34,9 @@ export default function NutritionMainPage() {
             console.error("❌ Failed to fetch profile or nutrition:", error);
         }
     };
+
+
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -67,7 +70,7 @@ export default function NutritionMainPage() {
             )}
             {activeTab === "target" && (
                 <div>
-                    <UserTarget nutrition={nutrition}/>
+                    <UserTarget nutrition={nutrition} fetchData={fetchData} />
                 </div>
             )}
 
