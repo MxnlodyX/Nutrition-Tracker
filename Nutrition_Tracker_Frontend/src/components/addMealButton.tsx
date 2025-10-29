@@ -1,6 +1,10 @@
 import { useState } from "react";
 import NewMealForm from "./MealForm"
-export default function MealButton() {
+
+interface MealButtonProps {
+    onAdded?: () => void; 
+}
+export default function MealButton({ onAdded }:MealButtonProps ) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -24,8 +28,8 @@ export default function MealButton() {
                 เพิ่มมื้ออาหาร
             </button>
             {isOpen && (
-                <NewMealForm onClose={()=> setIsOpen(false)}/>
-                
+                <NewMealForm onAdded={onAdded} onClose={() => setIsOpen(false)} />
+
             )}
         </>
     );

@@ -13,6 +13,8 @@ export default function SignInPage() {
     const handleLogin = async () => {
         try {
             const res = await login(loginData.email, loginData.password)
+            const userId = res.data.user.id;
+            localStorage.setItem("userId", userId.toString());
             localStorage.setItem("accessToken", res.data.accessToken);
             localStorage.setItem("refreshToken", res.data.refreshToken);
             navigate('/nutritionTrack')

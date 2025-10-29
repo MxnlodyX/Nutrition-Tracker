@@ -1,76 +1,99 @@
 import { useEffect, useState } from "react";
-import { Meal } from '../types/meal'
-export default function MealLog() {
-    const [meals, setMeals] = useState<Meal[]>([]);
+import { MealToday } from '../types/meal';
+import Swal from "sweetalert2";
+import { deleteMealToday } from "../service/mealService";
+
+interface MealLogProps {
+    meals: MealToday[];
+    onDeleted?: () => void; 
+}
+
+export default function MealLog({ meals, onDeleted }: MealLogProps) {
+    const [displayMeals, setDisplayMeals] = useState<MealToday[]>([]);
     const [loading, setLoading] = useState(true);
+    const handleDelete = async (mealId: number) => {
+        const confirm = await Swal.fire({
+            title: "ยืนยันการลบ?",
+            text: "คุณต้องการลบมื้ออาหารนี้หรือไม่?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "ลบเลย",
+            cancelButtonText: "ยกเลิก",
+            confirmButtonColor: "#e11d48",
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        try {
+            await deleteMealToday(mealId);
+            onDeleted?.(); // ✅ reload หน้า
+            console.log("✅ onDeleted called");
+            await Swal.fire({
+                title: "ลบสำเร็จ!",
+                text: "มื้ออาหารถูกลบออกเรียบร้อยแล้ว 🍽️",
+                icon: "success",
+                timer: 1500,
+                showConfirmButton: false,
+            });
+
+
+        } catch (error: any) {
+            Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบมื้อนี้ได้", "error");
+            console.error("❌ Failed to delete meal:", error);
+        }
+    };
     useEffect(() => {
-        // 🕐 จำลองการ fetch API (delay 1.2 วินาที)
+        // 🕐 จำลอง delay การโหลดข้อมูล
         setTimeout(() => {
-            // 🔹 ทดลองเปิด / ปิดคอมเมนต์เพื่อสลับระหว่าง "มีข้อมูล" / "ไม่มีข้อมูล"
-
-            // ✅ กรณีมีข้อมูล
-            // setMeals([
-            //     {
-            //         id: 1,
-            //         name: "ข้าวผัดไก่",
-            //         calories: 550,
-            //         protein: 30,
-            //         carb: 65,
-            //         fat: 10,
-            //         mealType: "มื้อ 1",
-            //     },
-            //     {
-            //         id: 2,
-            //         name: "ข้าวต้มปลา",
-            //         calories: 320,
-            //         protein: 25,
-            //         carb: 45,
-            //         fat: 5,
-            //         mealType: "มื้อ 2",
-            //     },
-            // ]);
-
-            // ❌ กรณีไม่มีข้อมูล
-            setMeals([]);
-
+            setDisplayMeals(meals || []);
             setLoading(false);
-        }, 1200);
-    }, []);
+        }, 800);
+    }, [meals]);
+
     return (
         <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/60 p-8">
             <h1 className="font-extrabold text-2xl mb-4">มื้ออาหารวันนี้</h1>
 
-            {/* 🌀 แสดงระหว่างโหลด */}
             {loading && (
                 <div className="flex justify-center items-center py-10">
                     <div className="animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent"></div>
                 </div>
             )}
 
-            {/* 📦 ถ้ามีข้อมูล */}
-            {!loading && meals.length > 0 && (
+            {!loading && displayMeals.length > 0 && (
                 <div className="space-y-4">
-                    {meals.map((meal) => (
+                    {displayMeals.map((meal) => (
                         <div
                             key={meal.id}
-                            className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 flex justify-between items-center shadow-sm hover:shadow-md transition"
+                            className="bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-md rounded-2xl p-5 flex justify-between items-center shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100"
                         >
-                            <div>
-                                <p className="font-semibold text-slate-800">
-                                    {meal.mealType} — {meal.name}
+                            <div className="flex flex-col">
+                                <p className="font-semibold text-slate-800 text-lg flex items-center gap-2">
+                                    <span className="text-xl">🍱</span>
+                                    {meal.meal_type.toUpperCase()} —{" "}
+                                    <span className="text-green-700">{meal.food_name}</span>
                                 </p>
-                                <p className="text-slate-500 text-sm">
-                                    🔥 {meal.calories} kcal · 💪 {meal.protein}g · 🌾 {meal.carb}g · 🥑 {meal.fat}g
+                                <p className="text-slate-500 text-sm mt-1 flex flex-wrap gap-x-3">
+                                    <span>🔥 {meal.calories} kcal</span>
+                                    <span>💪 {meal.protein}g</span>
+                                    <span>🌾 {meal.carb}g</span>
+                                    <span>🥑 {meal.fat}g</span>
                                 </p>
                             </div>
-                            <button className="text-red-400 hover:text-red-600 transition">ลบ</button>
+                            <button
+                                onClick={() => handleDelete(meal.id)} // ✅ เพิ่ม onClick
+
+                                className="px-3 py-1.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+                            >
+                                ลบ
+                            </button>
                         </div>
                     ))}
                 </div>
             )}
 
-            {/* 🚫 ถ้าไม่มีข้อมูล */}
-            {!loading && meals.length === 0 && (
+
+            {!loading && displayMeals.length === 0 && (
                 <div className="flex flex-col justify-center items-center py-10">
                     <div className="inline-block p-6 bg-gradient-to-br from-slate-100 to-slate-200 rounded-3xl mb-4">
                         <svg
@@ -94,5 +117,5 @@ export default function MealLog() {
                 </div>
             )}
         </div>
-    )
+    );
 }
