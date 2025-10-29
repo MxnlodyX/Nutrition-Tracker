@@ -2,8 +2,8 @@ import { useState } from "react";
 
 export default function useRegistrationForm() {
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         gender: "",
         birthday: "",
         email: "",
@@ -28,8 +28,8 @@ export default function useRegistrationForm() {
         const newErrors: Record<string, string> = {};
 
         if (step === 1) {
-            if (!formData.firstName) newErrors.firstName = "กรุณากรอกชื่อ";
-            if (!formData.lastName) newErrors.lastName = "กรุณากรอกนามสกุล";
+            if (!formData.firstname) newErrors.firstname = "กรุณากรอกชื่อ";
+            if (!formData.lastname) newErrors.lastname = "กรุณากรอกนามสกุล";
             if (!formData.gender) newErrors.gender = "กรุณาเลือกเพศ";
             if (!formData.birthday) newErrors.birthday = "กรุณาเลือกวันเกิด";
         }

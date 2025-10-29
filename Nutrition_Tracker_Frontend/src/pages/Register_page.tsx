@@ -2,25 +2,30 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import StepIndicator from "../components/StepIndicator";
-import useRegistrationForm from "../hook/useRegistrationForm";
+import  useRegistrationForm  from "../hook/useRegistrationForm";
+import { registerUser } from "../service/registrationService";
 
 export default function RegistrationPage() {
     const [currentStep, setCurrentStep] = useState(1);
     const { formData, errors, handleChange, validateStep } = useRegistrationForm();
 
-    const handleNext = () => {
+    const handleNext = async () => {
         const validationErrors = validateStep(currentStep);
         if (validationErrors) return;
 
         if (currentStep === 3) {
-            console.log("✅ Registration successful:", formData);
-            setCurrentStep(4);
+            try {
+                await registerUser(formData);
+                setCurrentStep(4);
+            } catch (error) {
+                console.error("Registration failed:", error);
+                // Optionally, set an error state to display a message to the user
+            }
             return;
         }
 
         setCurrentStep(currentStep + 1);
-        console.log("STEP:", currentStep);
-        console.log("FORM DATA:", formData);
+
     };
 
     const handlePrev = () => {
@@ -53,13 +58,13 @@ export default function RegistrationPage() {
                                     </label>
                                     <input
                                         type="text"
-                                        name="firstName"
-                                        value={formData.firstName}
+                                        name="firstname"
+                                        value={formData.firstname}
                                         onChange={handleChange}
                                         className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 outline-none"
                                     />
-                                    {errors.firstName && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+                                    {errors.firstname && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.firstname}</p>
                                     )}
                                 </div>
 
@@ -69,13 +74,13 @@ export default function RegistrationPage() {
                                     </label>
                                     <input
                                         type="text"
-                                        name="lastName"
-                                        value={formData.lastName}
+                                        name="lastname"
+                                        value={formData.lastname}
                                         onChange={handleChange}
                                         className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 outline-none"
                                     />
-                                    {errors.lastName && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
+                                    {errors.lastname && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.lastname}</p>
                                     )}
                                 </div>
 

@@ -1,6 +1,6 @@
 export interface RegistrationData {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   gender: string;
   birthday: string;
   email: string;
