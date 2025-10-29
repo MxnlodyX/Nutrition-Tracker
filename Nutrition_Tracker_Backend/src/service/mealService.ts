@@ -36,7 +36,7 @@ export const getMealsByDate = async (userId: number, date: string) => {
     const result = await pool.query(
         `SELECT * FROM meals
          WHERE user_id = $1
-           AND DATE(created_at) = $2
+        AND (created_at AT TIME ZONE 'Asia/Bangkok')::date = $2::date
          ORDER BY created_at DESC`,
         [userId, date]
     );
