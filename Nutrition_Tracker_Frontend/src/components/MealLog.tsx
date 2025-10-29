@@ -5,7 +5,7 @@ import { deleteMealToday } from "../service/mealService";
 
 interface MealLogProps {
     meals: MealToday[];
-    onDeleted?: () => void; 
+    onDeleted?: () => void;
 }
 
 export default function MealLog({ meals, onDeleted }: MealLogProps) {
@@ -67,19 +67,32 @@ export default function MealLog({ meals, onDeleted }: MealLogProps) {
                             key={meal.id}
                             className="bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-md rounded-2xl p-5 flex justify-between items-center shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100"
                         >
-                            <div className="flex flex-col">
-                                <p className="font-semibold text-slate-800 text-lg flex items-center gap-2">
-                                    <span className="text-xl">🍱</span>
-                                    {meal.meal_type.toUpperCase()} —{" "}
-                                    <span className="text-green-700">{meal.food_name}</span>
-                                </p>
-                                <p className="text-slate-500 text-sm mt-1 flex flex-wrap gap-x-3">
-                                    <span>🔥 {meal.calories} kcal</span>
-                                    <span>💪 {meal.protein}g</span>
-                                    <span>🌾 {meal.carb}g</span>
-                                    <span>🥑 {meal.fat}g</span>
-                                </p>
+                            <div className="w-[80%] flex flex-col bg-gradie nt-to-br from-slate-50 to-white border border-slate-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
+                                <div className="flex items-center gap-5">
+                                    <p className="font-bold text-slate-800 text-lg flex items-center gap-2">
+                                        <span className="tracking-wide">{meal.meal_type.toUpperCase()}</span>
+                                    </p>
+                                    <p className="text-indigo-600 font-semibold text-base truncate max-w-[180px]">
+                                        {meal.food_name}
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 text-sm font-medium text-slate-600">
+                                    <span className="flex items-center gap-1 bg-orange-50 px-2 py-1 rounded-lg border border-orange-100">
+                                         <span className="text-orange-600">{meal.calories} kcal</span>
+                                    </span>
+                                    <span className="flex items-center gap-1 bg-green-50 px-2 py-1 rounded-lg border border-green-100">
+                                        โปรตีน <span className="text-green-600">{meal.protein}g</span>
+                                    </span>
+                                    <span className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-lg border border-yellow-100">
+                                        คาร์บ <span className="text-yellow-600">{meal.carb}g</span>
+                                    </span>
+                                    <span className="flex items-center gap-1 bg-purple-50 px-2 py-1 rounded-lg border border-purple-100">
+                                        ไขมัน <span className="text-purple-600">{meal.fat}g</span>
+                                    </span>
+                                </div>
                             </div>
+
                             <button
                                 onClick={() => handleDelete(meal.id)} // ✅ เพิ่ม onClick
 
