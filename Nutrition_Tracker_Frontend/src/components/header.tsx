@@ -1,10 +1,8 @@
 import { useState } from "react";
 
-export default function NutritionHeader() {
-    const [activeTab, setActiveTab] = useState<"today" | "target" | "history">("today");
-
+export default function NutritionHeader({ activeTab, onTabChange }: any) {
     const tabClass = (tab: string) =>
-        `flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-lg ${activeTab === tab
+        `flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-lg cursor-pointer ${activeTab === tab
             ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white scale-105"
             : "bg-slate-200 text-gray-600 hover:bg-slate-300"
         }`;
@@ -40,15 +38,15 @@ export default function NutritionHeader() {
                 <p className="text-normal text-gray-600">ติดตามสุขภาพของคุณทุกวัน</p>
 
                 <div className="mt-8 flex gap-5 bg-slate-100/50 p-1.5 rounded-2xl">
-                    <button onClick={() => setActiveTab("today")} className={tabClass("today")}>
+                    <button onClick={() => onTabChange("today")} className={tabClass("today")}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-activity"> <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>
                         Today
                     </button>
-                    <button onClick={() => setActiveTab("target")} className={tabClass("target")}>
+                    <button onClick={() => onTabChange("target")} className={tabClass("target")}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-target"> <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
                         Target
                     </button>
-                    <button onClick={() => setActiveTab("history")} className={tabClass("history")}>
+                    <button onClick={() => onTabChange("history")} className={tabClass("history")}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-history"> <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg>
                         History
                     </button>
