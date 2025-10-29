@@ -15,14 +15,33 @@ export const addMeal = async (meal: Meal) => {
 export const getMealsToday = async (userId: number) => {
     const result = await pool.query(
         `SELECT * FROM meals
-     WHERE user_id = $1
-       AND DATE(created_at) = CURRENT_DATE
-     ORDER BY created_at DESC`,
+        WHERE user_id = $1
+        AND DATE(created_at) = CURRENT_DATE
+        ORDER BY created_at DESC`,
+        [userId]
+    );
+    return result.rows;
+};
+export const getAllMeals = async (userId: number) => {
+    const result = await pool.query(
+        `SELECT * FROM meals
+         WHERE user_id = $1
+         ORDER BY created_at DESC`,
         [userId]
     );
     return result.rows;
 };
 
+export const getMealsByDate = async (userId: number, date: string) => {
+    const result = await pool.query(
+        `SELECT * FROM meals
+         WHERE user_id = $1
+        AND (created_at AT TIME ZONE 'Asia/Bangkok')::date = $2::date
+         ORDER BY created_at DESC`,
+        [userId, date]
+    );
+    return result.rows;
+};
 export const deleteMealToday = async (mealId: number) => {
     const result = await pool.query(
         `DELETE FROM meals WHERE id = $1 RETURNING *`,
