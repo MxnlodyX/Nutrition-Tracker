@@ -1,6 +1,10 @@
-import { Pool } from 'pg'
-import dotenv from 'dotenv'
-dotenv.config()
+import { Pool } from "pg";
+
+// โหลด dotenv เฉพาะตอนรันใน local เท่านั้น
+if (process.env.NODE_ENV !== "production") {
+    await import("dotenv").then(({ default: dotenv }) => dotenv.config());
+}
+
 const pool = new Pool(
     process.env.DATABASE_URL
         ? {
@@ -16,4 +20,5 @@ const pool = new Pool(
             ssl: { rejectUnauthorized: false },
         }
 );
-export default pool
+
+export default pool;
