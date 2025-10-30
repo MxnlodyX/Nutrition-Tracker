@@ -1,0 +1,51 @@
+name: CI/CD - Nutrition Tracker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------- Backend Build --------
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install backend dependencies
+        working-directory: ./Nutrition_Tracker_Backend
+        run: bun install
+
+      - name: Build backend
+        working-directory: ./Nutrition_Tracker_Backend
+        run: bun run build
+
+      # -------- Frontend Build --------
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install frontend dependencies
+        working-directory: ./Nutrition_Tracker_Frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ./Nutrition_Tracker_Frontend
+        run: npm run build
+
+  # deploy:
+  #   needs: build-and-test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Trigger Render Backend Deployment
+  #       run: |
+  #         curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}
+
+  #     - name: Trigger Render Frontend Deployment
+  #       run: |
+  #         curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND }}
