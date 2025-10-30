@@ -12,9 +12,11 @@
     "moduleDetection": "auto",
     "jsx": "preserve",
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "rootDir": "./src",
     "outDir": "./dist",
+    "baseUrl": "./src", // ต้องมีเพื่อให้ tsc-alias ทำงาน
+    "paths": { "*": ["*"] }, // เพื่อให้ครอบคลุมการ import ภายใน
     "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
