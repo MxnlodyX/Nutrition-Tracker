@@ -30,11 +30,19 @@ export const calculateNutrition = async (userId: number) => {
     const protein = (tdee * 0.25) / 4;
     const carb = (tdee * 0.5) / 4;
     const fat = (tdee * 0.25) / 9;
+
     const result = await pool.query(
         `INSERT INTO nutrition_calculation (user_id, bmr, tdee, protein, carb, fat)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *`,
-        [userId, bmr, tdee, protein, carb, fat]
+        [
+            userId,
+            Number(bmr.toFixed(2)),
+            Number(tdee.toFixed(2)),
+            Number(protein.toFixed(2)),
+            Number(carb.toFixed(2)),
+            Number(fat.toFixed(2)),
+        ]
     );
     return result.rows[0];
 }
