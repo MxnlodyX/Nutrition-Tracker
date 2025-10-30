@@ -13,8 +13,11 @@ dotenv.config()
 
 app.use(express.json())
 app.use(cors({
-  origin: "http://localhost:5173", // พอร์ตของ React/Vite
-  credentials: true, // ถ้าจะส่ง cookie/token ข้ามโดเมน
+  origin: [
+    "http://localhost:5173",           // dev
+    "http://frontend:80" // หลัง deploy
+  ],
+  credentials: true,
 }));
 app.use('/api', dbtestRoutes)
 app.use('/api', registrationRoutes)
@@ -24,8 +27,8 @@ app.use("/api/meals", mealRoute); // Use meal route
 
 setupSwagger(app);
 
-app.listen(3002, () => {
-  console.log(`✅ Server running on port ${process.env.PORT}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`✅ Server running on port ${process.env.SERVER_PORT}`);
   console.log(`📘 Swagger docs ready at http://localhost:3002/api-docs`);
 });
 export default app
