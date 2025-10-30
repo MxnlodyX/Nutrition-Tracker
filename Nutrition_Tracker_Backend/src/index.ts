@@ -14,9 +14,9 @@ dotenv.config()
 app.use(express.json())
 app.use(cors({
   origin: [
-    "http://localhost:5173",           // dev
-    "http://frontend:80" // หลัง deploy
+    "https://nutrition-tracker-frontend-9a3e.onrender.com", // frontend URL จริงของคุณ
   ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 }));
 app.use('/api', dbtestRoutes)
