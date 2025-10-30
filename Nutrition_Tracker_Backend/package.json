@@ -1,10 +1,14 @@
 {
   "name": "nutrition_tracker_backend",
+  "type": "module",
+  "exports": {
+    "./@/*": "./dist/*"
+  },
   "module": "dist/index.js",
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "build": "bunx rimraf dist && tsc && tsc-alias",
+    "start": "bun run dist/index.js"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
@@ -19,7 +23,8 @@
     "@types/swagger-ui-express": "^4.1.8",
     "jest": "^30.2.0",
     "supertest": "^7.1.4",
-    "ts-jest": "^29.4.5"
+    "ts-jest": "^29.4.5",
+    "tsc-alias": "^1.8.16"
   },
   "peerDependencies": {
     "typescript": "^5"

@@ -1,0 +1,6 @@
+# .dockerignore ในโฟลเดอร์ Frontend
+node_modules
+dist
+.git
+.vscode
+*.log

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: nutrition_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: nutrition_tracker
+      TZ: Asia/Bangkok
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build: ./Nutrition_Tracker_Backend
+    container_name: nutrition_backend
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./Nutrition_Tracker_Backend/.env
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Nutrition_Tracker_Frontend
+      args:
+        VITE_API_URL: http://localhost:3002/api   # ✅ frontend จะคุยกับ backend local
+    container_name: nutrition_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

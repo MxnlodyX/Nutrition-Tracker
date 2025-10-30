@@ -11,7 +11,7 @@ import { getMealToday } from "../service/mealService";
 import { MealToday } from "../types/meal";
 
 export default function NutritionMainPage() {
-    const [profile, setProfile] = useState<any>(null);
+    const [_, setProfile] = useState<any>(null);
     const [nutrition, setNutrition] = useState<any>(null);
     const [mealToday, setMealToday] = useState<any>([]);
     const [activeTab, setActiveTab] = useState<"today" | "target" | "history">("today");

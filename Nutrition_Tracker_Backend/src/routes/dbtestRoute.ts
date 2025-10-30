@@ -14,9 +14,10 @@ router.get('/testdb',async (_:Request,res:Response)=>{
             })
         }
     }catch(error){
+        // 💡 แก้ไข: ส่งเฉพาะข้อความ Error เพื่อป้องกัน Server Crash
         res.status(500).json({
             message: "Database Connection Failed",
-            error : error
+            error: (error as Error).message // 👈 ดึงแค่ message
         })
     }
 })

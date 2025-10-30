@@ -1,29 +1,37 @@
 {
-  "compilerOptions" : {
-    "types": ["jest", "node"],
-    "target" : "ES2020",
-    "lib": ["ES2020","DOM"],
+  "compilerOptions": {
+    "types": [
+      "jest",
+      "node"
+    ],
+    "target": "ES2020",
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
     "moduleDetection": "auto",
     "jsx": "preserve",
-    "ignoreDeprecations": "6.0",
-
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "node",
     "rootDir": "./src",
     "outDir": "./dist",
-
-    "allowJs" : true,
-    "moduleResolution": "node",
+    "baseUrl": "./src", // ต้องมีเพื่อให้ tsc-alias ทำงาน
+    "paths": { "*": ["*"] }, // เพื่อให้ครอบคลุมการ import ภายใน
+    "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-
     "strict": true,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
-
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_module","dist"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
