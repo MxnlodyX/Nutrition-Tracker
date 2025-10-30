@@ -1,0 +1,18 @@
+# สิ่งที่ควร Ignore เพราะไม่จำเป็นต้องใช้ในการ Build หรือรันจริง
+
+# โฟลเดอร์ที่เก็บ Dependencies (จะถูกติดตั้งใหม่ใน Dockerfile)
+node_modules
+
+# ไฟล์ Lockfile ของ NPM (คุณใช้ Bun และ bun.lock)
+package-lock.json
+
+# โฟลเดอร์ผลลัพธ์ของการ Build ในเครื่อง Local
+dist
+
+# ไฟล์และโฟลเดอร์ที่ไม่เกี่ยวข้องกับการรันโค้ด
+.git
+.gitignore
+.vscode
+*.log
+npm-debug.log*
+yarn-error.log*
